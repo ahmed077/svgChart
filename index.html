@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Chart</title>
+</head>
+<body>
+    <svg width="700" height="300">
+        <rect x="3" y="3" width="694" height="294" style="fill:#504b41;stroke:#333;stroke-width:3" />
+        <line x1="50" y1="3" x2="50" y2="297" style="stroke:#none" />
+        <text x="50" y="200" style="fill:#ddd"></text>
+        <polyline points="" style="stroke:#fff;fill:none"/>
+        <g style='fill:#9a8b6f;stroke:#fff;stroke-width:2' id="pointsGroup">
+        </g>
+    </svg>
+    <style>
+        circle{transition:all 0.2s ease-in-out;}
+        circle:hover{
+            cursor: pointer;
+            fill:#454138;
+            r:9;
+            stroke-width:4;
+        }
+    </style>
+    <script>
+        var $points = document.querySelector('polyline'),
+            g = document.getElementById('pointsGroup');
+        for (var i = 0; i < 10; i++) {
+            var x = Math.floor(70 * i) + 30,
+                y = Math.floor(Math.random() * (250)) + 25;
+            $points.setAttribute('points', $points.getAttribute('points') + " " + x + ',' + y);
+            g.innerHTML += "<circle id='point_" + i + "' cx='" + x + "' cy='" + y + "' r='7' />";
+        }
+        document.querySelectorAll('circle').forEach(function (circle) {
+            circle.addEventListener('mousemove', showLine, false);
+            circle.addEventListener('mouseover', showLine, false);
+            circle.addEventListener('mouseout', hideLine, false);
+        });
+        function showLine(e) {
+            var line = document.querySelector('line');
+            line.setAttribute('x1', e.currentTarget.getAttribute('cx'));
+            line.setAttribute('x2', e.currentTarget.getAttribute('cx'));
+            line.style.stroke = '#ddd';
+            var text = document.querySelector('text');
+            text.setAttribute('x', parseInt(e.currentTarget.getAttribute('cx')) + 15);
+            text.setAttribute('y', e.currentTarget.getAttribute('cy'));
+            text.textContent = e.currentTarget.id;
+        }
+        function hideLine() {
+            var line = document.querySelector('line');
+            line.style.stroke = 'none';
+            var text = document.querySelector('text');
+            text.textContent = "";
+        }
+    </script>
+</body>
+</html>
