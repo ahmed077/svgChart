@@ -37,13 +37,25 @@
             circle.addEventListener('mouseout', hideLine, false);
         });
         function showLine(e) {
-            var line = document.querySelector('line');
-            line.setAttribute('x1', e.currentTarget.getAttribute('cx'));
-            line.setAttribute('x2', e.currentTarget.getAttribute('cx'));
+            var line = document.querySelector('line'),
+                x = parseInt(e.currentTarget.getAttribute('cx')),
+                y = parseInt(e.currentTarget.getAttribute('cy')),
+                text = document.querySelector('text');
+            line.setAttribute('x1', x);
+            line.setAttribute('x2', x);
             line.style.stroke = '#ddd';
-            var text = document.querySelector('text');
-            text.setAttribute('x', parseInt(e.currentTarget.getAttribute('cx')) + 15);
-            text.setAttribute('y', e.currentTarget.getAttribute('cy'));
+            if (x > 600) {
+                x -= 80;
+            }
+            text.setAttribute('x', x + 15);
+            if (y > 290) {
+                y -= 30;
+            }
+            if (y < 20) {
+                y += 20;
+            }
+            console.log(y);
+            text.setAttribute('y', y);
             text.textContent = e.currentTarget.id;
         }
         function hideLine() {
